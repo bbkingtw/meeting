@@ -1,0 +1,134 @@
+<head>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src='http://codeorigin.jquery.com/jquery-2.0.3.min.js'></script>
+  <script type='text/javascript'>
+     $(function() {
+	$('div#test').html(new Date());     
+        for (i=0; i<5; i++) {
+          c();  
+        }
+	setInterval(c2,500);
+     });
+     function r(){     
+        location.reload();
+     }
+     function cposition(){             
+        x=100+400*Math.random(100);
+	y=100+400*Math.random(100);
+        circle=$('#x1');
+	circle.attr('cx',x).attr('cy',y);
+
+        x=100+400*Math.random(100);
+	y=100+400*Math.random(100);
+        rect=$('#x2');
+	rect.attr('x',x).attr('y',y);
+     }
+     function c2(){
+	svg=d3.select('#svg');
+
+	k=$('.word').length;
+
+        word=[];
+	color=[];
+
+	for (i=0; i<k; i++) {
+          word[i]=Math.ceil(Math.random()*100);
+
+          x=100+Math.ceil(Math.random()*155);
+          sx=x.toString(16);
+
+          switch(i % 2) {
+            case 0:
+	      color[i]='0000'+sx
+	      break;
+            case 1:
+	      color[i]='00'+sx+'00';
+	      break;
+            case 2:
+	      color[i]=sx+'0000';
+              break;
+	  }          
+        }
+
+	var color = d3.scale.category20();
+
+	d3.selectAll('.word')
+	  .data(word)//[4, 8, 15, 16, 23, 42])
+	  .text(function(d){return d})
+	  .attr('x',function(d,i){return d});
+
+
+	d3.selectAll('.circle')
+	  .data(word)//4, 8, 15, 16, 23, 42])
+	  .text(function(d){return d})
+	  .attr('cx',function(d,i){return d})
+	  .style("fill",function(d,i){return color(i);});
+return;
+	d3.selectAll('.circle')
+          .data(color)
+	  .style('fill',function(d,i){return color(i);});
+     }
+     function c(){        
+	//$('div#test').html('start test');
+        //$('#svg').append('rect').attr('x',100);
+  	
+	var words=['one','2','3'];	
+        x=20+145*Math.random();
+	//$('div#test').html('2');
+	y=20+145*Math.random();
+
+        svg=d3.select('#svg');
+	//$('div#test').html('3');      
+	if (!svg) {
+    	  var svg=d3.select('div#test2').append('svg').attr({width:100,height:100});
+        }
+	svg.data(words).append('circle').attr('class','circle').style({fill:'#00f'}).attr('cx',x).attr('cy',y).attr('r',5);
+	svg.data(words).append('text').attr('class','word').attr('x',x).attr('y',y).text(Math.floor(x).toString());
+	//svg.selectAll('.xxx').data(words).append('text').attr('x',x).attr('y',y).text(Math.floor(x).toString());
+        
+
+	d3.selectAll("span").style("color", function() {
+           return "hsl(" + Math.random() * 360 + ",100%,50%)";
+        });
+return;
+	//var p=d3.selectAll('span').data(words).text(new Date());
+	//p.enter.append('p').text(new Date());
+
+	d3
+          .selectAll('span')
+          .data(words).append('p')
+	  .style("color", function() {
+             return "hsl(" + Math.random() * 360 + ",100%,50%)";
+          })
+	  .text(function(d){return d;})
+
+        $('div#test').html('end test');
+        return;    
+
+     }
+  </script>
+</head>
+
+<body>
+  <div id=test></div>
+  <hr>
+    <button id=x onclick='r()'>refresh</button>
+    <button id=x onclick='cposition()'>cposition</button>
+    <button id=x onclick='c()'>button</button>  
+    <button id=x onclick='c2()'>c2</button>  
+  <hr>
+
+  <div id=test2>
+     this is div test
+     <span class='span1'>span1</span> 
+     <hr>
+     <span class='span2'>span2</span>
+  </div>
+  <hr>
+  <h1>My first SVG</h1>
+  <hr>
+  <svg id='svg' xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <circle id='x1' cy="50" cx="150" r="40" stroke="black" stroke-width="2" fill="red" />
+    <rect id='x2' width="300" height="100" y="90" style="fill:rgb(50,220,55);stroke-width:1;stroke:rgb(0,0,0)"/>
+  </svg>
+</body>
