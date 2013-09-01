@@ -1,0 +1,27 @@
+<head>
+<script src="/socket.io/socket.io.js"></script>
+<script src='http://code.jquery.com/jquery-latest.min.js' type='text/javascript'></script>
+<script type='text/javascript'>
+  var socket = io.connect('ws://localhost');
+
+  socket.on('news', function (data) {
+    s=$('#x').html();
+    s=s+"<br>"+data;
+    $('#x').html(s);
+  });
+
+  function xx(){
+    socket.emit('cpu','3');
+  }
+  function yy() {
+    socket.emit('my other event','qwe');
+  }
+</script>
+</head>
+<body>
+<button id=xx onclick='xx()'>CPU</button>
+<button id=yy onclick='yy()'>TIME</button>
+<div id=x>this s x</div>
+<div id=y>send s x</div>
+
+</body>
